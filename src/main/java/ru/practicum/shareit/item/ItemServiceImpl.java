@@ -48,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
         }
         if (!storage.existItemsByOwner(itemId, userId)) {
             throw new NotFoundException(
-                    String.format("Item with id=%d for owner id=%d not founded", itemId, userId));
+                    String.format("item with id=%d for owner id=%d not founded", itemId, userId));
         }
         Item updatedItem = storage.update(item, itemId, userId);
         return ItemMapper.toItemDto(updatedItem);
