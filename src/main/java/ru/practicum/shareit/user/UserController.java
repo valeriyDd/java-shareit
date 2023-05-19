@@ -44,7 +44,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(
             @Valid @RequestBody UserDto user) {
-        log.debug("Request received POST '/users' for userId = {} : {}", user);
+        log.debug("Request received POST '/users' for userId = {}", user);
         return service.create(user);
     }
 

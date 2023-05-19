@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository storage;
 
     @Override
-    public Collection<ru.practicum.shareit.user.dto.UserDto> getAll() {
+    public Collection<UserDto> getAll() {
         return storage.getAll()
                 .stream()
                 .map(UserMapper::toUserDto)
