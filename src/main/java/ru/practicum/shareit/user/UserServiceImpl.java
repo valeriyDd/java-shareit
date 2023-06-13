@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public boolean existUser(long userId) {
         return repository.existsById(userId);
     }

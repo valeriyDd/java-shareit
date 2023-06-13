@@ -29,13 +29,13 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private long id;//уникальный идентификатор
     @Column
-    private String name;// название
+    private String name;//краткое название
     @Column
-    private String description;
+    private String description;//развёрнутое описание
     @Column(name = "available")
-    private boolean available;// статус
+    private boolean available;//статус о том, доступна или нет вещь для аренды
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)

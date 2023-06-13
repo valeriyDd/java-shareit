@@ -11,8 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class ItemRequest {
-    private long id;
-    private String description;// текст запроса
-    private long requestor;// пользователь
-    private Date created;
+    private long id;// уникальный идентификатор
+    private String description;// текст запроса, содержащий описание требуемой вещи
+    private long requestor;// пользователь, создавший запрос
+    private Date created;// дата и время создания запроса
 }

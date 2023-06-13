@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ItemDtoShort {
-    private long id;
-    private String name;
+    private long id;//уникальный идентификатор вещи
+    private String name;//краткое название
 }

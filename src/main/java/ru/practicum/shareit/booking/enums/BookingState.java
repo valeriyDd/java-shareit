@@ -2,9 +2,9 @@ package ru.practicum.shareit.booking.enums;
 
 public enum BookingState {
     ALL,
-    CURRENT,
-    PAST,
-    FUTURE,
+    CURRENT,//текущие
+    PAST,//завершённые
+    FUTURE,//будущие
     WAITING,//ожидающие подтверждения
-    REJECTED;
+    REJECTED;//отклонённые
 }

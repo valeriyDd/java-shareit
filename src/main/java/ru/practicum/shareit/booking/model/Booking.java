@@ -36,19 +36,19 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private long id;// уникальный идентификатор
     @Column(name = "start_booking")
-    private LocalDateTime start;// время начала бронирования
+    private LocalDateTime start;// дата и время начала бронирования
     @Column(name = "end_booking")
-    private LocalDateTime end;// время конца бронирования
+    private LocalDateTime end;// дата и время конца бронирования
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
-    private Item item;// вещь
+    private Item item;// вещь, которую пользователь бронирует
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booker_id", nullable = false)
-    private User booker;// пользователь
+    private User booker;// пользователь, который осуществляет бронирование
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;// статус бронирования

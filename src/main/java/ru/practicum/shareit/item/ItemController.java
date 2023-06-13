@@ -33,46 +33,46 @@ public class ItemController {
     private final ItemService service;
 
     @GetMapping
-    public Collection<ItemDto> getAll(@RequestHeader("X-User-Id") long userId) {
+    public Collection<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") long userId) {
         log.debug("Request received GET '/items'");
-        log.debug("X-User-Id={}", userId);
+        log.debug("X-Sharer-User-Id={}", userId);
         return service.getAllByOwner(userId);
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getById(
-            @RequestHeader("X-User-Id") long userId,
+            @RequestHeader("X-Sharer-User-Id") long userId,
             @PathVariable(name = "itemId") long itemId) {
         log.debug("Request received GET '/items/{}'", itemId);
-        log.debug("X-User-Id={}", userId);
+        log.debug("X-Sharer-User-Id={}", userId);
         return service.getById(itemId, userId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ItemDto create(
-            @RequestHeader(value = "X-User-Id", required = false) long userId,
+            @RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
             @Valid @RequestBody ItemDto itemDto) {
         log.debug("Request received POST '/items' : {}", itemDto);
-        log.debug("X-User-Id={}", userId);
+        log.debug("X-Sharer-User-Id={}", userId);
         return service.create(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader(value = "X-User-Id", required = false) long userId,
+    public ItemDto update(@RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
                           @PathVariable(name = "itemId") long itemId,
                           @RequestBody ItemDto itemDto) {
         log.debug("Request received PATCH '/items/{}' : {}", itemId, itemDto);
-        log.debug("X-User-Id={}", userId);
+        log.debug("X-Sharer-User-Id={}", userId);
         return service.update(itemDto, itemId, userId);
     }
 
     @GetMapping("/search")
     public List<ItemDto> search(
-            @RequestHeader(value = "X-User-Id", required = false) long userId,
+            @RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
             @RequestParam(name = "text") String text) {
         log.debug("Request received GET '/items/search?text={}'", text);
-        log.debug("X-User-Id={}", userId);
+        log.debug("X-Sharer-User-Id={}", userId);
         if (text.isBlank()) {
             log.debug("Parameter 'text' is empty");
             return Collections.emptyList();
@@ -81,11 +81,11 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto createCommentToItem(@RequestHeader(value = "X-User-Id", required = false) long userId,
+    public CommentDto createCommentToItem(@RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
                                           @PathVariable(name = "itemId") long itemId,
                                           @Valid @RequestBody CommentDto commentDto) {
         log.debug("Request received POST '/items/{}/comment' : {}", itemId, commentDto);
-        log.debug("X-User-Id={}'", userId);
+        log.debug("X-Sharer-User-Id={}'", userId);
         return service.addComment(userId, itemId, commentDto);
     }
 }
