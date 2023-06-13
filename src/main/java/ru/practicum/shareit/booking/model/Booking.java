@@ -36,7 +36,7 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;// уникальный идентификатор
+    private long id;// уникальный id
     @Column(name = "start_booking")
     private LocalDateTime start;// дата и время начала бронирования
     @Column(name = "end_booking")
