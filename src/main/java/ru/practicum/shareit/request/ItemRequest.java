@@ -1,9 +1,7 @@
 package ru.practicum.shareit.request;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -12,11 +10,9 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 public class ItemRequest {
     private long id;
-    private String description;
-    private long requestor;
+    private String description;// текст запроса
+    private long requestor;// пользователь
     private Date created;
 }
