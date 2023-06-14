@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     /**
      * Get all items by owner
-     * @param owner - owner id
+     * @param owner owner id
      * @return collection of items
      */
     List<Item> findAllByOwnerId(Long owner);
