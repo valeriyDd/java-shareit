@@ -60,7 +60,7 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
-                          @PathVariable(name = "itemId") long itemId,@Valid
+                          @PathVariable(name = "itemId") long itemId,
                           @RequestBody ItemDto itemDto) {
         log.debug("Request received PATCH '/items/{}' : {}", itemId, itemDto);
         log.debug("X-Sharer-User-Id={}", userId);
