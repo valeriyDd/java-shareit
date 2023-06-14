@@ -46,7 +46,7 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public UserDto update(
-            @PathVariable(name = "userId") long userId,@Valid
+            @PathVariable(name = "userId") long userId,
             @RequestBody UserDto userDto) {
         log.debug("Request received PATCH '/items/{}' : {}", userId, userDto);
         return service.update(userDto, userId);
