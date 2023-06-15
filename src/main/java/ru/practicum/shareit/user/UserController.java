@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.util.validation.CreateValidationGroup;
 import ru.practicum.shareit.util.validation.UpdateValidationGroup;
 
 import javax.validation.Valid;
@@ -42,7 +43,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(
-            @Valid @RequestBody UserDto userDto) {
+            @Validated(CreateValidationGroup.class) @RequestBody UserDto userDto) {
         log.debug("Request received POST '/users' : {}", userDto);
         return service.create(userDto);
     }

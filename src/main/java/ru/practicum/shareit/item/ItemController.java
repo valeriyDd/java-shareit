@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.util.validation.CreateValidationGroup;
 import ru.practicum.shareit.util.validation.UpdateValidationGroup;
 
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class ItemController {
     @ResponseStatus(HttpStatus.CREATED)
     public ItemDto create(
             @RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
-            @Valid @RequestBody ItemDto itemDto) {
+            @Validated(CreateValidationGroup.class) @RequestBody ItemDto itemDto) {
         log.debug("Request received POST '/items' : {}", itemDto);
         log.debug("X-Sharer-User-Id={}", userId);
         return service.create(itemDto, userId);
