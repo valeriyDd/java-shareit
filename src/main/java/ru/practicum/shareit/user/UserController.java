@@ -17,7 +17,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.util.validation.CreateValidationGroup;
 import ru.practicum.shareit.util.validation.UpdateValidationGroup;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
 
