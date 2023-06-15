@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.shareit.util.validation.UpdateValidationGroup;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,6 @@ public class UserDto {
     @NotBlank(message = "Name cannot be empty or null")
     private String name;
     @NotBlank(message = "Email cannot be empty or null")
-    @Email(message = "Email must be valid")
+    @Email(groups = UpdateValidationGroup.class)
     private String email;
 }
