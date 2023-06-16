@@ -17,13 +17,13 @@ import java.util.List;
 @Setter
 @Builder
 public class ItemDto {
-    private long id;//уникальный идентификатор вещи
+    private long id;
     @NotBlank(groups = CreateValidationGroup.class)
-    private String name;//краткое название
+    private String name;
     @NotBlank(groups = CreateValidationGroup.class)
-    private String description;//развёрнутое описание
+    private String description;
     @NotNull(groups = CreateValidationGroup.class)
-    private Boolean available;//статус о том, доступна или нет вещь для аренды
+    private Boolean available;
     private BookingShortDto lastBooking;
     private BookingShortDto nextBooking;
     private List<CommentDto> comments;
