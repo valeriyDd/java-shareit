@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.util.validation.CreateValidationGroup;
+import ru.practicum.shareit.util.validation.UpdateValidationGroup;
 
-import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.Collection;
-
-/**
- * TODO Sprint add-controllers.
- */
 
 @Slf4j
 @RestController
@@ -43,17 +42,17 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(
-            @Valid @RequestBody UserDto user) {
-        log.debug("Request received POST '/users' for userId = {}", user);
-        return service.create(user);
+            @Validated(CreateValidationGroup.class) @RequestBody UserDto userDto) {
+        log.debug("Request received POST '/users' : {}", userDto);
+        return service.create(userDto);
     }
 
     @PatchMapping("/{userId}")
     public UserDto update(
-            @PathVariable(name = "userId") long userId,
-            @RequestBody UserDto user) {
-        log.debug("Request received PATCH '/items/{}' : {}", userId, user);
-        return service.update(user, userId);
+            @PathVariable(name = "userId") @Positive long userId, @Validated(UpdateValidationGroup.class)
+    @RequestBody UserDto userDto) {
+        log.debug("Request received PATCH '/items/{}' : {}", userId, userDto);
+        return service.update(userDto, userId);
     }
 
     @DeleteMapping("/{userId}")

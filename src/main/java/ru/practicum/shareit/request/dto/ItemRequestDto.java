@@ -7,9 +7,9 @@ import java.util.Date;
  */
 
 public class ItemRequestDto {
-    private Long id;
-    private String description;
-    private Long requestor;
-    private Date created;
+    private Long id;// уникальный идентификатор
+    private String description;// текст запроса, содержащий описание требуемой вещи
+    private Long requestor;// пользователь, создавший запрос
+    private Date created;// дата и время создания запроса
 
 }
