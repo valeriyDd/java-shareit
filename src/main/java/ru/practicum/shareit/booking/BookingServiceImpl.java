@@ -8,11 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.model.BookingFilter;
 import ru.practicum.shareit.booking.dto.BookingMapping;
 import ru.practicum.shareit.booking.enums.BookingState;
 import ru.practicum.shareit.booking.enums.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.model.BookingFilter;
 import ru.practicum.shareit.exceptions.AvailableException;
 import ru.practicum.shareit.exceptions.NoAccessException;
 import ru.practicum.shareit.exceptions.NotFoundException;
@@ -26,23 +26,23 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.util.Constants;
 import ru.practicum.shareit.util.QPredicate;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.time.Clock;
 
 import static ru.practicum.shareit.booking.model.QBooking.booking;
+import static ru.practicum.shareit.util.Constants.DEFAULT_CLOCK;
 import static ru.practicum.shareit.util.Constants.MSG_ITEM_WITH_ID_NOT_FOUND;
 import static ru.practicum.shareit.util.Constants.MSG_USER_WITH_ID_NOT_FOUND;
 import static ru.practicum.shareit.util.Constants.SORT_BY_START_DESC;
-import static ru.practicum.shareit.util.Constants.DEFAULT_CLOCK;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
-
     private final UserService userService;
     private final BookingRepository repository;
+
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
@@ -58,10 +58,10 @@ public class BookingServiceImpl implements BookingService {
         if (!isStartBeforeEnd(bookingDto)) {
             throw new ValidateException("Booking start date must be before end date.");
         }
-        User user = userRepository.findById(userId).orElseThrow(
+        final User user = userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException(String.format(MSG_USER_WITH_ID_NOT_FOUND, userId)));
 
-        Item item = itemRepository.findById(bookingDto.getItemId()).orElseThrow(
+        final Item item = itemRepository.findById(bookingDto.getItemId()).orElseThrow(
                 () -> new NotFoundException(String.format(MSG_ITEM_WITH_ID_NOT_FOUND, bookingDto.getItemId())));
 
         if (item.getOwner().getId() == userId) {
@@ -79,14 +79,14 @@ public class BookingServiceImpl implements BookingService {
             ));
         }
 
-        Booking booking = repository.save(BookingMapping.toBooking(bookingDto, item, user));
+        final Booking booking = repository.save(BookingMapping.toBooking(bookingDto, item, user));
         return BookingMapping.toDto(booking);
     }
 
     @Override
     @Transactional
     public BookingDto approveBooking(long userId, long bookingId, boolean isApproved) {
-        Booking booking = repository.findById(bookingId).orElseThrow(
+        final Booking booking = repository.findById(bookingId).orElseThrow(
                 () -> new NotFoundException(String.format(Constants.MSG_BOOKING_WITH_ID_NOT_FOUND, bookingId)));
 
         if (booking.getBooker().getId() == userId) {
@@ -119,7 +119,7 @@ public class BookingServiceImpl implements BookingService {
         if (!userService.existUser(userId)) {
             throw new NotFoundException(String.format(MSG_USER_WITH_ID_NOT_FOUND, userId));
         }
-        Booking booking = repository.findByIdAndBookerOrOwner(userId, bookingId).orElseThrow(
+        final Booking booking = repository.findByIdAndBookerOrOwner(userId, bookingId).orElseThrow(
                 () -> new NotFoundException(String.format(Constants.MSG_BOOKING_WITH_ID_NOT_FOUND, bookingId)));
         return BookingMapping.toDto(booking);
     }
@@ -127,17 +127,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional(readOnly = true)
     public List<BookingDto> getAllByBooker(long userId, String state, PageRequest page) {
-        Iterable<Booking> bookings = getBookingsByUserAndState(userId, state, false, page);
+        final Iterable<Booking> bookings = getBookingsByUserAndState(userId, state, false, page);
         return BookingMapping.toListDto(bookings);
-
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<BookingDto> getAllByOwner(long userId, String state, PageRequest page) {
-        Iterable<Booking> bookings = getBookingsByUserAndState(userId, state, true, page);
+        final Iterable<Booking> bookings = getBookingsByUserAndState(userId, state, true, page);
         return BookingMapping.toListDto(bookings);
-
     }
 
     @NotNull
@@ -187,6 +185,10 @@ public class BookingServiceImpl implements BookingService {
         } catch (IllegalArgumentException ex) {
             throw new RequestException("Unknown state: " + state);
         }
+    }
+
+    private boolean isStartBeforeEnd(BookingDto bookingDto) {
+        return bookingDto.getStart().isBefore(bookingDto.getEnd());
     }
 
     private boolean isEndDateInPast(Booking booking) {
