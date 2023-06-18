@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +17,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.util.validation.CreateValidationGroup;
-import ru.practicum.shareit.util.validation.UpdateValidationGroup;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 import static ru.practicum.shareit.util.Constants.SORT_BY_ID_ACS;
 import static ru.practicum.shareit.util.Constants.X_SHARER_USER_ID;
@@ -73,7 +69,7 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
-                          @PathVariable(name = "itemId") @Positive long itemId, @Validated(UpdateValidationGroup.class)
+                          @PathVariable(name = "itemId") long itemId,
                           @RequestBody ItemDto itemDto) {
         log.debug("Request received PATCH '/items/{}' : {}", itemId, itemDto);
         log.debug(X_SHARER_USER_ID, userId);
@@ -83,8 +79,10 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> search(
             @RequestHeader(value = "X-Sharer-User-Id", required = false) long userId,
-            @RequestParam(name = "text") String text, @RequestParam(name = "from", required = false) @Min(0) Integer from,
-            @RequestParam(name = "size", required = false) @Min(1) @Max(50) Integer size) {
+            @RequestParam(name = "text") String text,
+            @RequestParam(name = "from", required = false) @Min(0) Integer from,
+            @RequestParam(name = "size", required = false) @Min(1) @Max(50) Integer size
+    ) {
         log.debug("Request received GET '/items/search?text={}'", text);
         log.debug(X_SHARER_USER_ID, userId);
         if (text.isBlank()) {
