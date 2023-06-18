@@ -40,7 +40,6 @@ public class BookingMapping {
                 .build();
     }
 
-
     public static BookingShortDto toShortDto(BookingDto booking) {
         return BookingShortDto.builder()
                 .id(booking.getId())

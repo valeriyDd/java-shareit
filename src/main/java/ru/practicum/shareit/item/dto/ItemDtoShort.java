@@ -8,9 +8,9 @@ import lombok.Data;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ItemDtoShort {
-    private long id;
-    private String name;
-    private String description;
+    private long id;//уникальный идентификатор вещи
+    private String name;//краткое название
+    private String description;//краткое название
     private boolean available;
     private Long requestId;
 }

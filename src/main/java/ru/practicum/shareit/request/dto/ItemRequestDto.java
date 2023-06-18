@@ -21,10 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ItemRequestDto {
-    private Long id;
+    private Long id;// уникальный идентификатор
     @NotBlank(message = "Description cannot be empty or null")
-    private String description;
-    private Long requester;
-    private LocalDateTime created;
+    private String description;// текст запроса, содержащий описание требуемой вещи
+    private Long requester;// пользователь, создавший запрос
+    private LocalDateTime created;// дата и время создания запроса
     List<ItemDtoShort> items;
 }

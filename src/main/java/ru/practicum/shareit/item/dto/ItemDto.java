@@ -17,13 +17,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemDto {
-    private long id;
+    private long id;//уникальный идентификатор вещи
     @NotBlank(message = "Name cannot be empty or null")
-    private String name;
+    private String name;//краткое название
     @NotBlank(message = "Description cannot be empty or null")
-    private String description;
+    private String description;//развёрнутое описание
     @NotNull(message = "Available cannot be null")
-    private Boolean available;
+    private Boolean available;//статус о том, доступна или нет вещь для аренды
     private Long ownerID;
     private BookingShortDto lastBooking;
     private BookingShortDto nextBooking;

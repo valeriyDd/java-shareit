@@ -18,11 +18,11 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.request.ItemRequestRepository;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -137,12 +137,11 @@ public class ItemServiceImpl implements ItemService {
         if (!userService.existUser(userId)) {
             throw new NotFoundException(String.format(MSG_USER_WITH_ID_NOT_FOUND, userId));
         }
-        Item item = itemRepository.findByIdAndOwnerId(itemId, userId).orElseThrow(
+        final Item item = itemRepository.findByIdAndOwnerId(itemId, userId).orElseThrow(
                 () -> new NotFoundException(String.format("Item with id=%d for owner id=%d not found", itemId, userId)));
 
-        if (itemDto.getName() != null && !itemDto.getName().isBlank()) item.setName(itemDto.getName());
-        if (itemDto.getDescription() != null && !itemDto.getDescription().isBlank())
-            item.setDescription(itemDto.getDescription());
+        if (itemDto.getName() != null) item.setName(itemDto.getName());
+        if (itemDto.getDescription() != null) item.setDescription(itemDto.getDescription());
         if (itemDto.getAvailable() != null) item.setAvailable(itemDto.getAvailable());
 
         final Item updatedItem = itemRepository.save(item);
@@ -156,9 +155,6 @@ public class ItemServiceImpl implements ItemService {
                 ? itemRepository.findAllByNameOrDescriptionIgnoreCase(text, SORT_BY_ID_ACS)
                 : itemRepository.findAllByNameOrDescriptionIgnoreCase(text, page).getContent();
 
-        if (items.isEmpty()) {
-            throw new NotFoundException(String.format("No items found for search string '%s'", text));
-        }
         return items.stream()
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
@@ -176,12 +172,13 @@ public class ItemServiceImpl implements ItemService {
                     "Comment for item(id=%d) from user(id=%d) already exists", itemId, userId));
         }
 
+
         final Item item = bookingRepository.findByItemIdAndBookerIdAndEndBefore(itemId, userId, currentTime)
                 .orElseThrow(() -> new RequestException(String.format(
                         "User(id=%d) has never booked the item(id=%d)", userId, itemId)));
 
 
-       final Comment comment = commentRepository.save(CommentMapper.toComment(commentDto, user, item, currentTime));
+        final Comment comment = commentRepository.save(CommentMapper.toComment(commentDto, user, item, currentTime));
         return CommentMapper.toDto(comment);
     }
 

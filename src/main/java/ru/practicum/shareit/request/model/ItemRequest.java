@@ -34,18 +34,18 @@ public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private long id;// уникальный идентификатор
     @Column(name = "description")
-    private String description;
+    private String description;// текст запроса, содержащий описание требуемой вещи
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "requester_id", nullable = false)
     @ToString.Exclude
-    private User requester;
+    private User requester;// пользователь, создавший запрос
 
-    private LocalDateTime created;
+    private LocalDateTime created;// дата и время создания запроса
 
     @OneToMany(mappedBy = "request")
     @ToString.Exclude
-    private List<Item> items;
+    private List<Item> items;// пользователь, создавший запрос
 }

@@ -1,6 +1,10 @@
 package ru.practicum.shareit.booking.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ru.practicum.shareit.booking.enums.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -18,32 +22,32 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "bookings")
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private long id;// уникальный идентификатор
     @Column(name = "start_booking")
-    private LocalDateTime start;
+    private LocalDateTime start;// дата и время начала бронирования
     @Column(name = "end_booking")
-    private LocalDateTime end;
+    private LocalDateTime end;// дата и время конца бронирования
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     @ToString.Exclude
-    private Item item;
+    private Item item;// вещь, которую пользователь бронирует
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booker_id", nullable = false)
     @ToString.Exclude
-    private User booker;
+    private User booker;// пользователь, который осуществляет бронирование
 
     @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    private BookingStatus status;// статус бронирования
 }
