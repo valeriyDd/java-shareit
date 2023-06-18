@@ -42,7 +42,6 @@ public class BookingMapping {
 
 
     public static BookingShortDto toShortDto(BookingDto booking) {
-        if (booking == null) return null;
         return BookingShortDto.builder()
                 .id(booking.getId())
                 .bookerId(booking.getBooker().getId())

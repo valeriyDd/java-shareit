@@ -1,30 +1,33 @@
 package ru.practicum.shareit.item.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingShortDto;
-import ru.practicum.shareit.util.validation.CreateValidationGroup;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
-@Getter
-@Setter
-@Builder
+
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemDto {
     private long id;
-    @NotBlank(groups = CreateValidationGroup.class)
+    @NotBlank(message = "Name cannot be empty or null")
     private String name;
-    @NotBlank(groups = CreateValidationGroup.class)
+    @NotBlank(message = "Description cannot be empty or null")
     private String description;
-    @NotNull(groups = CreateValidationGroup.class)
+    @NotNull(message = "Available cannot be null")
     private Boolean available;
+    private Long ownerID;
     private BookingShortDto lastBooking;
     private BookingShortDto nextBooking;
     private List<CommentDto> comments;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long requestId;
 }

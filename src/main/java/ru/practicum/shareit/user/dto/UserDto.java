@@ -1,22 +1,22 @@
 package ru.practicum.shareit.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import ru.practicum.shareit.util.validation.CreateValidationGroup;
-import ru.practicum.shareit.util.validation.UpdateValidationGroup;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private Long id;
-    @NotBlank(groups = CreateValidationGroup.class)
+    @NotBlank(message = "Name cannot be empty or null")
     private String name;
-    @NotBlank(groups = CreateValidationGroup.class)
-    @Email(groups = {UpdateValidationGroup.class, CreateValidationGroup.class})
+    @NotBlank(message = "Email cannot be empty or null")
+    @Email(message = "Email must be valid")
     private String email;
 }
