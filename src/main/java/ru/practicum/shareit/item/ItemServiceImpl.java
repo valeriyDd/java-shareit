@@ -140,8 +140,8 @@ public class ItemServiceImpl implements ItemService {
         final Item item = itemRepository.findByIdAndOwnerId(itemId, userId).orElseThrow(
                 () -> new NotFoundException(String.format("Item with id=%d for owner id=%d not found", itemId, userId)));
 
-        if (itemDto.getName() != null) item.setName(itemDto.getName());
-        if (itemDto.getDescription() != null) item.setDescription(itemDto.getDescription());
+        if (itemDto.getName() != null && !itemDto.getName().isBlank()) item.setName(itemDto.getName());
+        if (itemDto.getDescription() != null && !itemDto.getDescription().isBlank())
         if (itemDto.getAvailable() != null) item.setAvailable(itemDto.getAvailable());
 
         final Item updatedItem = itemRepository.save(item);

@@ -49,10 +49,10 @@ public class UserServiceImpl implements UserService {
         final User user = repository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(MSG_USER_WITH_ID_NOT_FOUND, userId)));
 
-        if (userDto.getName() != null) {
+        if (userDto.getName() != null && !userDto.getName().isBlank()) {
             user.setName(userDto.getName());
         }
-        if (userDto.getEmail() != null)
+        if (userDto.getEmail() != null && !userDto.getEmail().isBlank())
             user.setEmail(userDto.getEmail());
         final User updatedUser = repository.save(user);
         return UserMapper.toUserDto(updatedUser);
