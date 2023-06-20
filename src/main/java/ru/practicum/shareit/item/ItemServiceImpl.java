@@ -142,6 +142,7 @@ public class ItemServiceImpl implements ItemService {
 
         if (itemDto.getName() != null && !itemDto.getName().isBlank()) item.setName(itemDto.getName());
         if (itemDto.getDescription() != null && !itemDto.getDescription().isBlank())
+            item.setDescription(itemDto.getDescription());
         if (itemDto.getAvailable() != null) item.setAvailable(itemDto.getAvailable());
 
         final Item updatedItem = itemRepository.save(item);
