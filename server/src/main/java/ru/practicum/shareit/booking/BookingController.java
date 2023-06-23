@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static ru.practicum.shareit.util.Constants.X_SHARER_USER_ID;
@@ -35,7 +34,7 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     BookingDtoResponse bookItem(
             @RequestHeader(value = "X-Sharer-User-Id") long userId,
-            @Valid @RequestBody BookingDto booking) {
+            @RequestBody BookingDto booking) {
         log.debug(X_SHARER_USER_ID, userId);
         log.debug("Request received POST '/bookings' : {}", booking);
         return service.bookItem(userId, booking);
